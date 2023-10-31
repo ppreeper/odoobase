@@ -1,0 +1,16 @@
+#!/bin/bash
+WKHTML_REPO=https://github.com/wkhtmltopdf/packaging
+WKHTML_VER=$(git ls-remote --tags "${WKHTML_REPO}" | awk '{print $2}' | grep "refs/tags/[0-9]" | sed 's/refs\/tags\///'| grep -v -e "{}" -e "rc" | sort -V | tail -1)
+
+function update_container(){
+  [ -z $2 ] && export TAG=odoobase || export TAG=odoobase_$2
+  WKHTML_URL=$(echo $WKHTML_REPO/releases/download/$WKHTML_VER/wkhtmltox_$WKHTML_VER.${1}_amd64.deb | tr '/' '\/' )
+  sed -e "s/curl -o wkhtmltox.deb -sSL .* /curl -o wkhtmltox.deb -sSL https:\/\/github.com\/wkhtmltopdf\/packaging\/releases\/download\/$WKHTML_VER\/wkhtmltox_$WKHTML_VER.${1}_amd64.deb /" -i Dockerfile
+  podman build --layers --force-rm --tag ${TAG} -f Dockerfile .
+}
+
+case ${1} in
+  "bookworm") update_container bookworm bookworm ;;
+  *) update_container bookworm ;;
+esac
+
