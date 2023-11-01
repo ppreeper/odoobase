@@ -100,7 +100,8 @@ RUN set -x; \
     shared-mime-info \
     unzip \
     xz-utils \
-    zip
+    zip \
+    zstd
 
 RUN set -x; \
     wget -qO /usr/share/GeoIP/GeoLite2-ASN.mmdb https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-ASN.mmdb \
@@ -127,6 +128,7 @@ EXPOSE 8069 8072
 ENV ODOO_RC /opt/odoo/conf/odoo.conf
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
+COPY oda_db.py /usr/local/bin/oda_db.py
 
 # Copy entrypoint script
 COPY ./entrypoint.sh /
