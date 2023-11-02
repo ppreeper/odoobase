@@ -10,8 +10,9 @@ function update_container(){
 }
 
 case ${1} in
+  "bookworm") update_container bookworm bookworm ;;
   "bullseye") update_container bullseye bullseye ;;
   "jammy") update_container jammy jammy ;;
-  *) update_container jammy ;;
+  *) update_container bookworm ;;
 esac
 

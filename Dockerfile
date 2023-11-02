@@ -1,4 +1,4 @@
-FROM docker.io/ubuntu:22.04
+FROM docker.io/debian:bookworm
 
 ENV TZ UTC
 ENV LANG C.UTF-8
@@ -14,10 +14,10 @@ RUN set -x; \
     apt-get update -y \
     && apt-get install -y wget \
     && wget -qO /etc/apt/trusted.gpg.d/pgdg.gpg.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
-    && echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
+    && echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends postgresql-client-15 \
-    && wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
+    && wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
     && rm -rf wkhtmltox.deb \
     && apt-get dist-upgrade -y \
@@ -109,7 +109,7 @@ RUN set -x; \
     && wget -qO /usr/share/GeoIP/GeoLite2-Country.mmdb https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-Country.mmdb
 
 RUN set -x; \
-    pip3 install ebaysdk google-auth
+    pip3 install --break-system-packages ebaysdk google-auth
 
 RUN set -x; \
     npm -g i rtlcss
