@@ -87,7 +87,6 @@ RUN set -x; \
     python3-pylibdmtx \
     python3-pyparsing \
     python3-pypdf2 \
-    python3-pytzdata \
     python3-qrcode \
     python3-renderpm \
     python3-reportlab \
@@ -97,6 +96,7 @@ RUN set -x; \
     python3-serial \
     python3-setuptools \
     python3-stdnum \
+    python3-tz \
     python3-urllib3 \
     python3-usb \
     python3-vobject \
