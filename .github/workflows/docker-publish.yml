@@ -2,7 +2,7 @@ name: Docker image build and push
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "15.0" ]
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
   pull_request:
