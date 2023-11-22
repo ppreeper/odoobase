@@ -12,18 +12,26 @@ RUN set -x; \
 
 RUN set -x; \
     apt-get update -y \
-    && apt-get install -y wget \
-    && wget -qO /etc/apt/trusted.gpg.d/pgdg.gpg.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+    && apt-get install -y wget
+
+RUN set -x; \
+    wget -qO /etc/apt/trusted.gpg.d/pgdg.gpg.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
     && echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update -y \
-    && apt-get install -y --no-install-recommends postgresql-client-15 \
-    && wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
+    && apt-get install -y --no-install-recommends postgresql-client-15
+
+RUN set -x; \
+    wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
-    && rm -rf wkhtmltox.deb \
-    && apt-get dist-upgrade -y \
+    && rm -rf wkhtmltox.deb
+
+RUN set -x; \
+    apt-get dist-upgrade -y \
     && apt-get autoremove -y \
-    && apt-get autoclean -y \
-    && apt-get install -y --no-install-recommends \
+    && apt-get autoclean -y
+
+RUN set -x; \
+    apt-get install -y --no-install-recommends \
     bzip2 \
     ca-certificates \
     curl \
@@ -79,7 +87,6 @@ RUN set -x; \
     python3-pylibdmtx \
     python3-pyparsing \
     python3-pypdf2 \
-    python3-pytzdata \
     python3-qrcode \
     python3-renderpm \
     python3-reportlab \
@@ -89,6 +96,7 @@ RUN set -x; \
     python3-serial \
     python3-setuptools \
     python3-stdnum \
+    python3-tz \
     python3-urllib3 \
     python3-usb \
     python3-vobject \
