@@ -1,4 +1,4 @@
-FROM docker.io/docker:bullseye
+FROM docker.io/debian:bullseye
 
 ENV TZ UTC
 ENV LANG C.UTF-8
