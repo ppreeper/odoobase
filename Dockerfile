@@ -1,4 +1,4 @@
-FROM docker.io/ubuntu:22.04
+FROM docker.io/docker:bullseye
 
 ENV TZ UTC
 ENV LANG C.UTF-8
@@ -14,10 +14,10 @@ RUN set -x; \
     apt-get update -y \
     && apt-get install -y wget \
     && wget -qO /etc/apt/trusted.gpg.d/pgdg.gpg.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
-    && echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
+    && echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends postgresql-client-15 \
-    && wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
+    && wget -qO wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bullseye_amd64.deb \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
     && rm -rf wkhtmltox.deb \
     && apt-get dist-upgrade -y \
