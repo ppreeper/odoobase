@@ -71,6 +71,7 @@ RUN set -x; \
     python3-lxml \
     python3-markupsafe \
     python3-num2words \
+    python3-odf \
     python3-ofxparse \
     python3-olefile \
     python3-openssl \
