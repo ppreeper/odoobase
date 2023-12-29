@@ -8,16 +8,13 @@ import sys
 import shutil
 import subprocess
 from contextlib import closing
+from passlib.context import CryptContext
 import psycopg2
 
 sys.path.append("odoo")
 import odoo
 
 sys.path.append("odoo")
-# import odoo.release
-# import odoo.sql_db
-# import odoo.tools
-# from odoo.tools import exec_pg_environ
 
 
 # Backup
@@ -396,6 +393,17 @@ def get_odoo_conf(configfile, key):
     return
 
 
+# Admin password
+def change_password(new_password):
+    new_password = new_password.strip()
+    if new_password == "":
+        return
+    ctx = CryptContext(schemes=["pbkdf2_sha512"])
+    pw_hash = ctx.hash(new_password)
+    print(pw_hash)
+    return
+
+
 # =============================================================================
 
 
@@ -403,9 +411,9 @@ def main():
     """Odoo Administration Backup Restore"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--backup", action="store_true", help="backup database")
-    parser.add_argument(
-        "-r", "--restore", action="store", help="restore database", nargs="+"
-    )
+    # parser.add_argument(
+    #     "-r", "--restore", action="store", help="restore database", nargs="+"
+    # )
     parser.add_argument(
         "-c",
         "--config",
@@ -413,8 +421,15 @@ def main():
         default="/opt/odoo/conf/odoo.conf",
         help="odoo.conf file location",
     )
+    parser.add_argument(
+        "-p", "--password", action="store", help="generate password hash"
+    )
 
     args = parser.parse_args()
+
+    if args.password:
+        change_password(args.password)
+        return
 
     if args.backup and args.restore:
         print("backup or restore cannot run both commands")
@@ -428,19 +443,19 @@ def main():
         print(_dump_addons_tar(args.config, bkp_prefix, "/opt/odoo/backups"))
         return
 
-    for dump in args.restore:
-        dump_file = dump.strip('"')
-        fname = os.path.splitext(os.path.basename(dump_file))[0].split(".")[0]
-        bfile = os.path.splitext(fname)[0].split("__")
+    # for dump in args.restore:
+    #     dump_file = dump.strip('"')
+    #     fname = os.path.splitext(os.path.basename(dump_file))[0].split(".")[0]
+    #     bfile = os.path.splitext(fname)[0].split("__")
 
-        if len(bfile) == 2:
-            print(f"restore from dump file {dump_file}")
-            _restore_db_tar(args.config, dump_file)
-        elif len(bfile) == 3 and bfile[-1] == "addons":
-            print(f"restore addons file {dump_file}")
-            _restore_addons_tar(dump_file)
-        else:
-            print("invalid backup filename")
+    #     if len(bfile) == 2:
+    #         print(f"restore from dump file {dump_file}")
+    #         _restore_db_tar(args.config, dump_file)
+    #     elif len(bfile) == 3 and bfile[-1] == "addons":
+    #         print(f"restore addons file {dump_file}")
+    #         _restore_addons_tar(dump_file)
+    #     else:
+    #         print("invalid backup filename")
     return
 
 
