@@ -136,7 +136,7 @@ EXPOSE 8069 8072
 ENV ODOO_RC /opt/odoo/conf/odoo.conf
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
-RUN oda_db.py /usr/local/bin/oda_db.py
+COPY oda_db.py /usr/local/bin/oda_db.py
 
 # Copy entrypoint script
 COPY ./entrypoint.sh /
