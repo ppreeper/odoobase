@@ -62,6 +62,7 @@ RUN set -x; \
     python3-freezegun \
     python3-geoip2 \
     python3-gevent \
+    python3-googleapi \
     python3-greenlet \
     python3-html2text \
     python3-idna \
